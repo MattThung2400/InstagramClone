@@ -30,8 +30,10 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## Notes
 
 Unfortunately, I made the mistake of creating my project without androidx enabled. For whatever reason, the automigration features in Android Studio do not seem to like me. As such, I had to perform a manual transition. I began by adding the following to my gradle.properties file:
+
 >android.useAndroidX=true
 >android.enableJetifier=true
+
 Then, within each activity I used, I just commented out the native imports, and used alt+enter on each error to grab the androidx libraries instead. This took a bit of time, though luckily I only had two activity pages at the time, so it wasn't very much work to transition over.
 
 ## Open-source libraries used
