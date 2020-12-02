@@ -1,12 +1,13 @@
 package com.matthewthung.instagram;
 
 import android.content.Context;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,21 +18,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Headers;
+public class ProfileFragment extends Fragment {
 
-public class HomeFragment extends Fragment {
-
-    public static final String TAG = "HomeFragment";
+    public static final String TAG = "ProfileFragment";
     private RecyclerView rvPosts;
-    private Context mContext;
+    private Button btnLogout;
     private View view;
+    private Context mContext;
     private SwipeRefreshLayout swipeContainer;
     private List<Post> posts;
     private PostsAdapter adapter;
@@ -48,12 +46,12 @@ public class HomeFragment extends Fragment {
         mContext = null;
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view = inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        btnLogout = view.findViewById(R.id.btnLogout);
 
         // Find the recycler view:
         rvPosts = view.findViewById(R.id.rvPosts);
@@ -64,6 +62,15 @@ public class HomeFragment extends Fragment {
         // Recycler view setup: layout manager and adapter:
         rvPosts.setLayoutManager(layoutManager);
         rvPosts.setAdapter(adapter);
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logOut();
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                goLoginActivity();
+            }
+        });
 
         swipeContainer = view.findViewById(R.id.swipeContainer);
 
@@ -83,12 +90,20 @@ public class HomeFragment extends Fragment {
         });
 
         queryPosts();
+
         return view;
     }
 
-    protected void queryPosts() {
+    private void goLoginActivity() {
+        Intent i = new Intent(mContext, LoginActivity.class);
+        startActivity(i);
+        getActivity().finish();
+    }
+
+    private void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
+        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
         query.setLimit(20);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
@@ -99,7 +114,7 @@ public class HomeFragment extends Fragment {
                     return;
                 }
 
-                for (Post post: posts) {
+                for (Post post : posts) {
                     Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
                 }
                 adapter.clear();

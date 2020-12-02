@@ -1,29 +1,15 @@
 package com.matthewthung.instagram;
 
-import android.drm.DrmStore;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 //import android.support.design.widget.BottomNavigationView;
 //import androidx.core.app.Fragment;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import android.text.Html;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_post:
                             selectedFragment = new PostFragment();
                             break;
-                        case R.id.nav_settings:
-                            selectedFragment = new SettingsFragment();
+                        case R.id.nav_profile:
+                        default:
+                            selectedFragment = new ProfileFragment();
                             break;
                     }
 

@@ -71,17 +71,20 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         ImageView ivPostPic;
         TextView tvUsername;
         TextView tvDescription;
+        TextView tvCreated;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivPostPic = itemView.findViewById(R.id.ivPostPic);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            tvCreated = itemView.findViewById(R.id.tvCreated);
         }
 
         public void bind(Post post) {
             tvUsername.setText(post.getUser().getUsername());
             tvDescription.setText(post.getDescription());
+            tvCreated.setText(post.getCreatedTime());
             post.getImage().getDataInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] data, ParseException e) {
