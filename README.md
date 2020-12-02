@@ -34,11 +34,6 @@ Here's a walkthrough of implemented user stories:
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
-## Open-source libraries used
-
-- [Android Async HTTP](https://github.com/codepath/CPAsyncHttpClient) - Simple asynchronous HTTP requests with JSON parsing
-- [Glide](https://github.com/bumptech/glide) - Image loading and caching library for Android
-
 # Project 3 - *InstagramClone - Part 1*
 
 **InstagramClone** is a photo sharing app similar to Instagram but using Parse as its backend.
